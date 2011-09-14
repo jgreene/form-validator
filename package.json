@@ -1,7 +1,12 @@
 {
     "name": "form-validator"
   , "version": "0.0.1"
+  , "description" : "A simple form validator that allows for complex validation scenarios and client side sharing (through browserify)."
   , "main": "formvalidator.js"
+  ,  "repository" : {
+        "type" : "git",
+        "url" : "https://github.com/jgreene/form-validator"
+  }
   , "dependencies": {
     "qs": ">= 0.3.1"
     , "jquery": ">=1.6.3"
