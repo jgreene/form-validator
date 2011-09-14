@@ -1,6 +1,6 @@
 {
     "name": "form-validator"
-  , "version": "0.0.1"
+  , "version": "0.0.11"
   , "description" : "A simple form validator that allows for complex validation scenarios and client side sharing (through browserify)."
   , "main": "formvalidator.js"
   ,  "repository" : {
