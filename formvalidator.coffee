@@ -1,5 +1,5 @@
 qs = require 'qs'
-$ = require 'jquery'
+$ = require 'jquery-browserify'
 
 check = require './validators'
 
