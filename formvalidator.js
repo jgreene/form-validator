@@ -1,6 +1,6 @@
 var $, FormValidator, check, getFormData, getNames, getValidationResults, qs, showSummary, validateName;
 qs = require('qs');
-$ = require('jquery-browserify');
+$ = require('jquery');
 check = require('./validators');
 showSummary = function(results) {
   var errors, message, name, r, _i, _len, _results;
