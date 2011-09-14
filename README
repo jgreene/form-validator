@@ -1,0 +1,82 @@
+A simple forms validation library meant to be used with browserify.
+
+To install:
+
+    npm install form-validator
+
+To create a form (in coffee-script):
+
+    validator = require 'formvalidator'
+
+    check = validator.check
+
+    FormValidator = validator.FormValidator
+
+    registrationForm = new FormValidator()
+    registrationForm.add 'email', (form) ->
+        if form.email == ''
+            'An email is required.'
+
+    registrationForm.add 'email', (form) ->
+        if form.email != '' and not check.isEmail form.email
+            'Invalid email.'
+
+    registrationForm.add 'password', (form) ->
+        if form.password == ''
+            'A password is required.'
+
+    registrationForm.add 'confirmPassword', (form) ->
+        if form.password != form.confirmPassword
+            'Passwords must match.'
+
+    exports.registrationForm = registrationForm
+
+
+The key points from above are the instantiation of the FormValidator() type.  This type has 3 methods on it the first is the add method, this takes two arguments, the first is the name="" field of the input element you are validating.  This only tells the library which field you want your validation error associated with.  The second is a validation method, this method has a single argument that is the pre-parsed form (req.body); it also either returns a string (signifying an error) or nothing/null signifying no error.
+
+Here is an example of checking a form server side:
+
+    registrationForm = require('registrationForm').registrationForm
+
+    app.post '/registration', (req, res) ->
+        //errors is an array of { name: 'name', message: 'error message' }
+        errors = registrationForm.validate req.body
+
+        if errors.length > 0
+            res.render 'registration', req.body
+        else
+            res.render 'success'
+
+Here is an example of checking a form client side:
+    
+    <script type="text/javascript">
+        var $ = require('jquery')
+        var registrationForm = require('./registrationForm').registrationForm
+
+        //attaches to the form by the form id
+        $(document).ready(function() { registrationForm.clientSetup('registrationForm') })
+    </script>
+
+    <form id="registrationForm" action="/registration" method="post">
+        
+    </form>
+
+Once your form is setup you can add error placeholders to it.  For field errors you can place an element with error="fieldName" on it to automatically display the error text when an error occurs. e.g.
+
+    <span error="email"></span>
+
+To display all errors you just need to add a <div class="formvalidation-errors"> container.  This will list all validation errors inside of it.
+
+For some pre-made validators you can use:
+    check = require('form-validator').check
+
+This has a number of methods that will help make it easier to validate forms (contributions are appreciated).
+
+That's it, if you have any questions please feel free to ask.
+
+
+
+
+    
+
+
