@@ -1,3 +1,4 @@
+[![build status](https://secure.travis-ci.org/jgreene/form-validator.png)](http://travis-ci.org/jgreene/form-validator)
 A simple forms validation library meant to be used with browserify.
 
 To install:
