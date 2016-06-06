@@ -42,7 +42,7 @@ getNames = function(validators) {
   }
   return results;
 };
-validateName = function(form, formData, name, validators) {
+validateName = function(form, formData, name, validators, afterChange) {
   var errorLabels, fields, r, results, v, _fn, _i, _len;
   validators = (function() {
     var _i, _len, _results;
@@ -67,10 +67,13 @@ validateName = function(form, formData, name, validators) {
       _fn(r);
     }
     errorLabels.parent().addClass('formvalidation-error');
-    return fields.addClass('formvalidation-input-error');
+    fields.addClass('formvalidation-input-error');
   } else {
     errorLabels.parent().removeClass('formvalidation-error');
-    return fields.removeClass('formvalidation-input-error');
+    fields.removeClass('formvalidation-input-error');
+  }
+  if (typeof(afterChange) === 'function') {
+    afterChange(results, fields, errorLabels);
   }
 };
 getFormData = function(form) {
@@ -94,7 +97,7 @@ FormValidator = (function() {
     formData = getFormData($('#' + formId));
     return this.validate(formData);
   };
-  FormValidator.prototype.clientSetup = function(formId) {
+  FormValidator.prototype.clientSetup = function(formId, afterChange) {
     var form, name, names, self, validateElements, validators, _fn, _i, _len;
     form = $('#' + formId);
     validators = this.validators;
@@ -107,7 +110,7 @@ FormValidator = (function() {
       for (_i = 0, _len = names.length; _i < _len; _i++) {
         name = names[_i];
         _results.push((function(name) {
-          return validateName(form, formData, name, validators);
+          return validateName(form, formData, name, validators, afterChange);
         })(name));
       }
       return _results;
@@ -116,7 +119,7 @@ FormValidator = (function() {
       return form.find('[name="' + name + '"]').bind('blur', function(e) {
         var formData;
         formData = getFormData(form);
-        validateName(form, formData, name, validators);
+        validateName(form, formData, name, validators, afterChange);
         return true;
       });
     };
